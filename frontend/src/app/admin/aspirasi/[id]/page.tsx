@@ -1,0 +1,9 @@
+import { AspirationDetail } from "@/components/admin/AspirationDetail";
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  return <AspirationDetail id={id} />;
+}

@@ -1,0 +1,1 @@
+ALTER TYPE "ContactType" ADD VALUE 'ADDRESS';

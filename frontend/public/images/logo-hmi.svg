@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" role="img" aria-labelledby="title desc">
+  <title id="title">Logo HMI</title>
+  <desc id="desc">Lambang hijau berbentuk sinar, bulan sabit, bintang, dan jalur teknologi.</desc>
+  <circle cx="250" cy="250" r="218" fill="#fff" stroke="#2f803c" stroke-width="12"/>
+  <g fill="#2f803c">
+    <path d="M238 52h24v116h-24z"/>
+    <path d="M238 332h24v116h-24z"/>
+    <path d="M52 238h116v24H52z"/>
+    <path d="M332 238h116v24H332z"/>
+    <path d="m105 122 17-17 82 82-17 17z"/>
+    <path d="m296 313 17-17 82 82-17 17z"/>
+    <path d="m105 378 82-82 17 17-82 82z"/>
+    <path d="m296 187 82-82 17 17-82 82z"/>
+    <path d="m164 77 22-9 42 108-22 9z"/>
+    <path d="m272 324 22-9 42 108-22 9z"/>
+    <path d="m68 186 9-22 108 42-9 22z"/>
+    <path d="m315 294 9-22 108 42-9 22z"/>
+    <path d="m68 314 108-42 9 22-108 42z"/>
+    <path d="m315 206 108-42 9 22-108 42z"/>
+    <path d="m164 423 42-108 22 9-42 108z"/>
+    <path d="m272 176 42-108 22 9-42 108z"/>
+  </g>
+  <circle cx="250" cy="250" r="86" fill="#fff" stroke="#2f803c" stroke-width="11"/>
+  <path fill="#2f803c" fill-rule="evenodd" d="M256 174a76 76 0 1 0 0 152 63 63 0 1 1 0-152Z"/>
+  <path fill="#2f803c" d="m262 191 16 37 40 4-30 26 9 40-35-21-35 21 9-40-30-26 40-4z"/>
+  <g fill="none" stroke="#2f803c" stroke-linecap="round" stroke-linejoin="round" stroke-width="8">
+    <path d="M218 259h-48l-22-22h-15"/>
+    <path d="M213 277h-60"/>
+    <path d="M220 295h-45l-28 28h-14"/>
+    <path d="M209 313h-30l-27 27"/>
+  </g>
+  <g fill="#2f803c">
+    <circle cx="131" cy="237" r="8"/>
+    <circle cx="150" cy="277" r="8"/>
+    <circle cx="131" cy="323" r="8"/>
+    <circle cx="151" cy="341" r="8"/>
+  </g>
+</svg>
