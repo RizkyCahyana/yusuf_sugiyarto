@@ -187,7 +187,7 @@ export default async function ProgramPage() {
       <section className="campaign-image-break container">
         <div className="campaign-image-frame">
           <Image
-            src="/images/profile/yusuf-gerakan.webp"
+            src="/images/profile/yusuf-gerakan-aksi4.webp"
             alt="Yusuf Sugiyarto berada di tengah ruang gerakan dan dialog"
             fill
             sizes="(max-width: 900px) 100vw, 1180px"

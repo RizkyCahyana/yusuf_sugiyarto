@@ -1596,6 +1596,9 @@ button:not(:disabled):active,
   content: "";
   pointer-events: none;
 }
+.profile-gallery-item.profile-gallery-no-caption::after {
+  content: none;
+}
 .profile-gallery-item > span {
   position: absolute;
   right: 20px;

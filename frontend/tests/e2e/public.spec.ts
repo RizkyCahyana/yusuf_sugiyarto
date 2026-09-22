@@ -1,7 +1,17 @@
 import { expect, test } from "@playwright/test";
-import path from "node:path";
 
-const publicRoutes = ["/", "/profile", "/program", "/kontak", "/aspirasi"];
+const publicRoutes = [
+  "/",
+  "/profile",
+  "/program",
+  "/program/transformasi-digital",
+  "/program/kolaborasi-nasional-global",
+  "/program/kaderisasi-adaptif",
+  "/program/meritokrasi-kepemimpinan",
+  "/program/profesionalisme-organisasi",
+  "/kontak",
+  "/aspirasi",
+];
 
 async function skipWelcome(page: import("@playwright/test").Page) {
   await page.addInitScript(() =>
@@ -77,6 +87,8 @@ test("Yusuf identity and green-white-black palette are applied", async ({
   }
 
   await page.goto("/program", { waitUntil: "domcontentloaded" });
+  await expect(page.locator(".program-active-count")).toHaveCount(0);
+  await expect(page.locator(".program-pagination-dot")).toHaveCount(5);
   await expect(
     page.getByRole("heading", { name: "Transformasi Digital" }),
   ).toBeVisible();
@@ -109,7 +121,7 @@ test("Yusuf identity and green-white-black palette are applied", async ({
 });
 
 test("public routes render without horizontal overflow", async ({ page }) => {
-  test.setTimeout(90_000);
+  test.setTimeout(180_000);
   await skipWelcome(page);
   for (const route of publicRoutes) {
     await page.goto(route, { waitUntil: "domcontentloaded" });
@@ -118,6 +130,21 @@ test("public routes render without horizontal overflow", async ({ page }) => {
       () => document.documentElement.scrollWidth > window.innerWidth + 1,
     );
     expect(overflow, `${route} overflows horizontally`).toBe(false);
+    if (route === "/profile") {
+      const galleryCardsFit = await page
+        .locator(".profile-gallery-item")
+        .evaluateAll((cards) =>
+          cards.every((card) => {
+            const rect = card.getBoundingClientRect();
+            return (
+              rect.width > 0 && rect.left >= -1 && rect.right <= innerWidth + 1
+            );
+          }),
+        );
+      expect(galleryCardsFit, "profile gallery cards fit the viewport").toBe(
+        true,
+      );
+    }
     expect(
       await page.evaluate(
         () => getComputedStyle(document.documentElement).scrollBehavior,

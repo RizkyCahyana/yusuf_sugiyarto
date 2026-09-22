@@ -17,7 +17,6 @@ type Errors = Record<string, string>;
 
 export function AspirationForm({ locale = "id" }: { locale?: Locale }) {
   const startedAt = useRef(0);
-  const errorSummaryRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
@@ -98,7 +97,11 @@ export function AspirationForm({ locale = "id" }: { locale?: Locale }) {
     setErrors(nextErrors);
     setServerError("");
     if (Object.keys(nextErrors).length) {
-      requestAnimationFrame(() => errorSummaryRef.current?.focus());
+      const firstInvalidField = Object.keys(nextErrors)[0];
+      requestAnimationFrame(() => {
+        const field = form.elements.namedItem(firstInvalidField);
+        if (field instanceof HTMLElement) field.focus();
+      });
       return;
     }
     setStatus("loading");
@@ -168,28 +171,6 @@ export function AspirationForm({ locale = "id" }: { locale?: Locale }) {
     ) : null;
   return (
     <form className="aspiration-form" onSubmit={onSubmit} noValidate>
-      {Object.keys(errors).length > 0 && (
-        <div
-          ref={errorSummaryRef}
-          className="form-error-summary"
-          role="alert"
-          tabIndex={-1}
-          aria-labelledby="form-error-title"
-        >
-          <strong id="form-error-title">
-            {locale === "id"
-              ? "Periksa kembali isian berikut:"
-              : "Please review the following fields:"}
-          </strong>
-          <ul>
-            {Object.entries(errors).map(([name, message]) => (
-              <li key={name}>
-                <a href={`#field-${name}`}>{message}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
       {status === "error" && (
         <div className="error-banner" role="alert">
           <strong>
@@ -252,6 +233,8 @@ export function AspirationForm({ locale = "id" }: { locale?: Locale }) {
             autoComplete="tel"
             inputMode="numeric"
             pattern="08[0-9]{8,13}"
+            minLength={10}
+            maxLength={15}
             required
             aria-invalid={!!errors.phone}
             aria-describedby={errors.phone ? "error-phone" : undefined}

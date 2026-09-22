@@ -2,7 +2,14 @@ import { buildApp, cleanupExpiredSessions } from "./app.js";
 import { env } from "./env.js";
 
 const app = await buildApp();
-await cleanupExpiredSessions();
+try {
+  await cleanupExpiredSessions();
+} catch (error) {
+  app.log.warn(
+    { err: error },
+    "Initial session cleanup skipped; the scheduled cleanup will retry.",
+  );
+}
 await app.listen({ port: env.PORT, host: env.HOST });
 
 const sessionCleanupTimer = setInterval(

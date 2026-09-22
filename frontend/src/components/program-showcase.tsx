@@ -126,68 +126,104 @@ export function ProgramShowcase({
         locale === "id" ? "Program Yusuf Sugiyarto" : "Yusuf Sugiyarto programs"
       }
     >
-      <div
-        ref={trackRef}
-        className="program-showcase-track"
-        aria-label={
-          locale === "id"
-            ? "Daftar program, geser ke kiri atau kanan untuk melihat program lainnya"
-            : "Program list; swipe left or right to explore"
-        }
-        tabIndex={0}
-        onKeyDown={(event) => {
-          if (event.key === "ArrowLeft") {
-            event.preventDefault();
-            move(-1, "auto");
+      <div className="program-showcase-stage">
+        {programs.length > 1 && (
+          <button
+            type="button"
+            className="program-swipe-button program-swipe-button-previous"
+            onClick={() => move(-1)}
+            disabled={activeIndex === 0}
+            aria-label={
+              locale === "id"
+                ? "Lihat program sebelumnya"
+                : "View previous program"
+            }
+          >
+            <ArrowLeft aria-hidden="true" size={24} />
+          </button>
+        )}
+
+        <div
+          ref={trackRef}
+          className="program-showcase-track"
+          aria-label={
+            locale === "id"
+              ? "Daftar program, geser ke kiri atau kanan untuk melihat program lainnya"
+              : "Program list; swipe left or right to explore"
           }
-          if (event.key === "ArrowRight") {
-            event.preventDefault();
-            move(1, "auto");
-          }
-        }}
-      >
-        {programs.map((program, index) => {
-          return (
-            <article
-              className="program-showcase-card"
-              key={program.slug}
-              role="group"
-              aria-roledescription="slide"
-              aria-label={`${index + 1} dari ${programs.length}: ${program.title}`}
-            >
-              <div className="program-slide-content">
-                <div className="program-slide-visual" aria-hidden="true">
-                  <span className="program-visual-label">
-                    {locale === "id"
-                      ? "Pilar modernisasi HMI"
-                      : "HMI modernization pillar"}
-                  </span>
-                  <span className="program-showcase-number">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <div className="program-showcase-icon">
-                    <ProgramIcon slug={program.slug} />
+          tabIndex={0}
+          onKeyDown={(event) => {
+            if (event.key === "ArrowLeft") {
+              event.preventDefault();
+              move(-1, "auto");
+            }
+            if (event.key === "ArrowRight") {
+              event.preventDefault();
+              move(1, "auto");
+            }
+          }}
+        >
+          {programs.map((program, index) => {
+            return (
+              <article
+                className="program-showcase-card"
+                key={program.slug}
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${index + 1} dari ${programs.length}: ${program.title}`}
+              >
+                <div className="program-slide-content">
+                  <div className="program-slide-visual" aria-hidden="true">
+                    <span className="program-visual-label">
+                      {locale === "id"
+                        ? "Pilar modernisasi HMI"
+                        : "HMI modernization pillar"}
+                    </span>
+                    <span className="program-showcase-number">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div className="program-showcase-icon">
+                      <ProgramIcon slug={program.slug} />
+                    </div>
+                    <span className="program-visual-line" />
                   </div>
-                  <span className="program-visual-line" />
+                  <div className="program-slide-copy">
+                    <span className="eyebrow">
+                      {locale === "id" ? "Program" : "Pillar"}{" "}
+                      {String(index + 1).padStart(2, "0")} /{" "}
+                      {String(programs.length).padStart(2, "0")}
+                    </span>
+                    <h3>{program.title}</h3>
+                    <p>{program.objective}</p>
+                    <Link
+                      href={`/program/${program.slug}`}
+                      className="text-link"
+                    >
+                      {locale === "id" ? "Selengkapnya" : "Learn more"}{" "}
+                      <ChevronRight aria-hidden="true" size={18} />
+                    </Link>
+                  </div>
                 </div>
-                <div className="program-slide-copy">
-                  <span className="eyebrow">
-                    {locale === "id" ? "Program" : "Pillar"}{" "}
-                    {String(index + 1).padStart(2, "0")} /{" "}
-                    {String(programs.length).padStart(2, "0")}
-                  </span>
-                  <h3>{program.title}</h3>
-                  <p>{program.objective}</p>
-                  <Link href={`/program/${program.slug}`} className="text-link">
-                    {locale === "id" ? "Selengkapnya" : "Learn more"}{" "}
-                    <ChevronRight aria-hidden="true" size={18} />
-                  </Link>
-                </div>
-              </div>
-            </article>
-          );
-        })}
+              </article>
+            );
+          })}
+        </div>
+
+        {programs.length > 1 && (
+          <button
+            type="button"
+            className="program-swipe-button program-swipe-button-next"
+            onClick={() => move(1)}
+            disabled={activeIndex === programs.length - 1}
+            aria-label={
+              locale === "id" ? "Lihat program berikutnya" : "View next program"
+            }
+          >
+            <ArrowRight aria-hidden="true" size={24} />
+          </button>
+        )}
       </div>
+
       {programs.length > 1 && (
         <div
           className="program-showcase-navigation"
@@ -197,11 +233,6 @@ export function ProgramShowcase({
               : "Program carousel controls"
           }
         >
-          <span className="program-active-count" aria-live="polite">
-            <strong>{String(activeIndex + 1).padStart(2, "0")}</strong>
-            <span aria-hidden="true">/</span>
-            {String(programs.length).padStart(2, "0")}
-          </span>
           <div
             className="program-swipe-pagination"
             aria-label={locale === "id" ? "Pilih program" : "Choose a program"}
@@ -216,34 +247,6 @@ export function ProgramShowcase({
                 aria-current={activeIndex === index ? "true" : undefined}
               />
             ))}
-          </div>
-          <div className="program-navigation-buttons">
-            <button
-              type="button"
-              className="program-swipe-button program-swipe-button-previous"
-              onClick={() => move(-1)}
-              disabled={activeIndex === 0}
-              aria-label={
-                locale === "id"
-                  ? "Lihat program sebelumnya"
-                  : "View previous program"
-              }
-            >
-              <ArrowLeft aria-hidden="true" size={21} />
-            </button>
-            <button
-              type="button"
-              className="program-swipe-button program-swipe-button-next"
-              onClick={() => move(1)}
-              disabled={activeIndex === programs.length - 1}
-              aria-label={
-                locale === "id"
-                  ? "Lihat program berikutnya"
-                  : "View next program"
-              }
-            >
-              <ArrowRight aria-hidden="true" size={21} />
-            </button>
           </div>
         </div>
       )}
